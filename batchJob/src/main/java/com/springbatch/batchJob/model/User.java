@@ -12,6 +12,7 @@ public class User {
 	private String user_code;
 	private String user_department;
 	private double user_pay_scale;
+
 	
 	
 	
