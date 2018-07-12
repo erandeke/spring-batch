@@ -1,0 +1,5 @@
+package com.springbatch.batchJob.controller;
+
+public class TriggerController {
+
+}

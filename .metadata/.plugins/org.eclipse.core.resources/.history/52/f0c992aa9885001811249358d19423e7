@@ -1,0 +1,11 @@
+package com.springbatch.batchJob.config;
+
+import org.springframework.context.annotation.Configuration;
+
+
+//This bean is the headstart for launching the job
+
+@Configuration
+public class SpringBatchConfig {
+
+}

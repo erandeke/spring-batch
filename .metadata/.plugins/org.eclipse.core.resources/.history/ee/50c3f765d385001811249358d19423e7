@@ -1,0 +1,5 @@
+server.port=9090
+
+#disable the auto spring batch job launcher 
+spring.batch.job.enabled=false
+input=file://Spring Boot Apps/spring batch with Boot/batchJob/src/main/resources/users.csv

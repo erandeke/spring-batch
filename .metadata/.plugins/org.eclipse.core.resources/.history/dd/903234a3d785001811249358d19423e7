@@ -1,0 +1,31 @@
+package com.springbatch.batchJob.model;
+
+import javax.persistence.Entity;
+
+@Entity
+public class User {
+
+	
+	
+	@javax.persistence.Id
+	private int user_indentity;
+	private String user_code;
+	private String user_department;
+	private double user_pay_scale;
+	
+	
+	
+	
+	
+	
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "id:"+id+"name:"+user_code+"dept:"+dept+"salary:"+salary;
+	}
+}

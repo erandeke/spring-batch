@@ -1,0 +1,77 @@
+package com.springbatch.batchJob.config;
+
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.web.ServerProperties.Tomcat.Resource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import com.springbatch.batchJob.model.User;
+
+
+//This bean is the headstart for launching the job
+
+@Configuration
+public class SpringBatchConfig {
+
+	
+	//Not JobBuilder is required for building the job
+	
+	@Bean
+	public Job job(JobBuilderFactory jobbuilder,StepBuilderFactory stepBuilderFactory,
+			ItemReader<User> itemReader,ItemProcessor<User, User> itemProcessor,
+			ItemWriter<User> itemWriter)
+	{
+		
+		Step step=stepBuilderFactory.get("ETL-Step-builder").<User,User>chunk(100)
+				.reader(itemReader)
+				.processor(itemProcessor)
+				.writer(itemWriter).build();
+				
+			
+		//Now per architecture step has reader,processor,writer
+		//so we need to use StepBuilderFactory
+		//wnt to read the data in the size(chunk) of 100
+		
+		
+		
+		//Provide the name for the job
+				//use the incrementer that will increment the batch sequence every time the batch runs
+		
+		Job build=jobbuilder.get("Processors-I20")
+		.incrementer(new RunIdIncrementer())
+		.start(step).build();  // for only one step
+		return build;
+		
+		/*  If we have multiple steps then the code will be
+		 * 
+		 * return jobbuilder.get("Processors-I20")
+		.incrementer(new RunIdIncrementer())
+		.flow(step).next(step).build();
+		 * 
+		 */
+		
+		
+	}
+	
+	
+	public FlatFileItemReader<User> flatItemReader(@Value("${input}") org.springframework.core.io.Resource resource)
+	{
+		
+		FlatFileItemReader<User> flatFileItemReader=new FlatFileItemReader<User>();
+		flatFileItemReader.setResource(resource);
+		flatFileItemReader.setName("ETL-Load");
+		
+	}
+	
+		
+}

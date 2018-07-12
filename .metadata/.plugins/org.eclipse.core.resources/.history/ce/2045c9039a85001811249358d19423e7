@@ -1,0 +1,41 @@
+package com.springbatch.batchJob.config;
+
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+
+//This bean is the headstart for launching the job
+
+@Configuration
+public class SpringBatchConfig {
+
+	
+	//Not JobBuilder is required for building the job
+	
+	@Bean
+	public Job job(JobBuilderFactory jobbuilder)
+	{
+		//Provide the name for the job
+		//use the incrementer that will increment the batch sequence every time the batch runs
+		Step step=null;
+		Job build=jobbuilder.get("Processors-I20")
+		.incrementer(new RunIdIncrementer())
+		.start(step).build();
+		return build;
+		
+		/*  If we have multiple steps then the code will be
+		 * 
+		 * return jobbuilder.get("Processors-I20")
+		.incrementer(new RunIdIncrementer())
+		.flow(step).next(step).build();
+		 * 
+		 */
+		
+		
+	}
+}

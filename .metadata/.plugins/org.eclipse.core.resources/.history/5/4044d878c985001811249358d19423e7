@@ -1,0 +1,21 @@
+package com.springbatch.batchJob.batch;
+
+import java.util.List;
+
+import org.springframework.batch.item.ItemWriter;
+import org.springframework.stereotype.Component;
+
+import com.springbatch.batchJob.model.User;
+
+@Component
+public class DBWriter implements ItemWriter<User> {
+
+	
+	
+	@Override
+	public void write(List<? extends User> arg0) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+}
